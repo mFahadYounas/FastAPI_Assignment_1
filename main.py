@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
-from typing import Optional
 from pydantic import BaseModel
+from typing import Optional
 
 app = FastAPI()
 
@@ -8,8 +8,8 @@ app = FastAPI()
 class Item(BaseModel):
     id: int
     item_name: str
-    existance: Optional[None]
-    temperature_celsius: Optional[float]
+    existance: Optional[str] = None
+    temperature_celsius: Optional[float] = None
 
 
 class StoreItem(BaseModel):
@@ -19,7 +19,7 @@ class StoreItem(BaseModel):
 
 
 @app.get("/item/{item_id}", response_model=Item)
-def get_items(item_id: int, detail: Optional[bool]):
+async def get_items(item_id: int, detail: (bool | None) = None):
     try:
         int(item_id)
     except ValueError:
@@ -30,14 +30,14 @@ def get_items(item_id: int, detail: Optional[bool]):
             "id": item_id,
             "item_name": "Super Conducter",
             "existance": "future (may be)",
-            "temperature_celsius": 0,
+            "temperature_celsius": 0.0,
         }
 
     return {"id": item_id, "item_name": "Super Conductor"}
 
 
 @app.post("/items/")
-def post_item(item: StoreItem):
+async def post_item(item: StoreItem):
     if len(item.name) == 0:
         raise HTTPException(
             status_code=400, detail="Invalid name: Name can not be empty string"
