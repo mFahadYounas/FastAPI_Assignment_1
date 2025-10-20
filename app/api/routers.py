@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from main import app
-from schemas.Item import Item
-from schemas.StoreItem import StoreItem
+from app.schemas.Item import Item
+from app.schemas.StoreItem import StoreItem
 
 
 @app.get("/item/{item_id}", response_model=Item)
