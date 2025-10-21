@@ -17,14 +17,17 @@ async def get_items(item_id: int, detail: (bool | None) = None):
             status=400, error="Invalid item_id: item_id must be an integer!"
         )
 
+    if detail:
+        return ResponseBuilder[ItemResponseData].success(
+            data={
+                "id": item_id,
+                "item_name": "Milk",
+                "existance": "In fridge",
+                "temperature_celsius": 3.5,
+            }
+        )
     return ResponseBuilder[ItemResponseData].success(
-        data={
-            "id": item_id,
-            "item_name": "Milk",
-            "existance": "In fridge",
-            "temperature_celsius": 3.5,
-        },
-        detail=detail,
+        data={"id": item_id, "item_name": "Milk"}
     )
 
 

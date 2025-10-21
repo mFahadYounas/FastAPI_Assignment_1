@@ -1,5 +1,5 @@
 from app.schemas.APIResponse import APIResponse
-from typing import Optional, TypeVar, Generic
+from typing import TypeVar, Generic
 
 T = TypeVar("T")
 
@@ -8,14 +8,7 @@ class ResponseBuilder(Generic[T]):
     @staticmethod
     def success(
         data: T,
-        detail: Optional[bool],
     ) -> APIResponse:
-        if detail:
-            return APIResponse[T](
-                status=200,
-                error="",
-                data=data,
-            )
         return APIResponse[T](
             status=200,
             error="",
