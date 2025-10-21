@@ -1,5 +1,6 @@
 from app.schemas.APIResponse import APIResponse
 from typing import Optional
+from app.schemas.APIResponse import ItemResponseData
 
 
 class ResponseBuilder:
@@ -12,7 +13,7 @@ class ResponseBuilder:
         detail: Optional[bool],
     ) -> APIResponse:
         if detail:
-            return APIResponse(
+            return APIResponse[ItemResponseData](
                 status=200,
                 error="",
                 data={
@@ -22,7 +23,7 @@ class ResponseBuilder:
                     "temperature_celsius": temperature_celsius,
                 },
             )
-        return APIResponse(
+        return APIResponse[ItemResponseData](
             status=200,
             error="",
             data={
@@ -33,4 +34,4 @@ class ResponseBuilder:
 
     @staticmethod
     def error(status: int, error: str):
-        return APIResponse(status=status, error=error, data=None)
+        return APIResponse[ItemResponseData](status=status, error=error, data=None)
