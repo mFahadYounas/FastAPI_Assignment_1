@@ -34,7 +34,7 @@ Refer to https://docs.astral.sh/uv/#installation for details on installation
 1. Run the application by using the following command:
 
 ```bash
-uvicorn main:app
+uv run main.py
 ```
 
 2. Open localhost:8000/docs to try out the API

@@ -1,11 +1,13 @@
 from fastapi import HTTPException
-from main import app
-from app.schemas.Item import Item
+from fastapi import APIRouter
 from app.schemas.StoreItem import StoreItem
 from app.api.ResponseBuilder import ResponseBuilder
 
 
-@app.get("/item/{item_id}", response_model=Item)
+router = APIRouter()
+
+
+@router.get("/item/{item_id}")
 async def get_items(item_id: int, detail: (bool | None) = None):
     try:
         int(item_id)
@@ -23,7 +25,7 @@ async def get_items(item_id: int, detail: (bool | None) = None):
     )
 
 
-@app.post("/items/")
+@router.post("/items/")
 async def post_item(item: StoreItem):
     if len(item.name) == 0:
         raise HTTPException(
