@@ -1,37 +1,27 @@
 from app.schemas.APIResponse import APIResponse
-from typing import Optional
-from app.schemas.APIResponse import ItemResponseData
+from typing import Optional, TypeVar, Generic
+
+T = TypeVar("T")
 
 
-class ResponseBuilder:
+class ResponseBuilder(Generic[T]):
     @staticmethod
     def success(
-        id: int,
-        item_name: str,
-        existance: str,
-        temperature_celsius: float,
+        data: T,
         detail: Optional[bool],
     ) -> APIResponse:
         if detail:
-            return APIResponse[ItemResponseData](
+            return APIResponse[T](
                 status=200,
                 error="",
-                data={
-                    "id": id,
-                    "item_name": item_name,
-                    "existance": existance,
-                    "temperature_celsius": temperature_celsius,
-                },
+                data=data,
             )
-        return APIResponse[ItemResponseData](
+        return APIResponse[T](
             status=200,
             error="",
-            data={
-                "id": id,
-                "item_name": item_name,
-            },
+            data=data,
         )
 
     @staticmethod
     def error(status: int, error: str):
-        return APIResponse[ItemResponseData](status=status, error=error, data=None)
+        return APIResponse[T](status=status, error=error, data=None)

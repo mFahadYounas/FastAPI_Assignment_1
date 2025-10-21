@@ -1,6 +1,7 @@
 from fastapi import HTTPException
 from fastapi import APIRouter
 from app.schemas.StoreItem import StoreItem
+from app.schemas.APIResponse import ItemResponseData
 from app.api.ResponseBuilder import ResponseBuilder
 
 
@@ -12,15 +13,17 @@ async def get_items(item_id: int, detail: (bool | None) = None):
     try:
         int(item_id)
     except ValueError:
-        return ResponseBuilder.error(
+        return ResponseBuilder[ItemResponseData].error(
             status=400, error="Invalid item_id: item_id must be an integer!"
         )
 
-    return ResponseBuilder.success(
-        id=item_id,
-        item_name="Milk",
-        existance="In fridge",
-        temperature_celsius=3.5,
+    return ResponseBuilder[ItemResponseData].success(
+        data={
+            "id": item_id,
+            "item_name": "Milk",
+            "existance": "In fridge",
+            "temperature_celsius": 3.5,
+        },
         detail=detail,
     )
 
